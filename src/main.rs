@@ -20,7 +20,7 @@ async fn main() -> Result<(), anyhow::Error> {
     //let url = url::Url::parse(&args.server)?;
     let (mut ws, _) = tokio_tungstenite::connect_async(args.server).await?;
 
-    let our_id = rand::thread_rng().gen_range(10, 10_000);
+    let our_id: u16 = rand::thread_rng().gen_range(10, 10_000);
     println!("Registering id {} with server", our_id);
     ws.send(WsMessage::Text(format!("HELLO {}", our_id))).await?;
 
@@ -30,5 +30,8 @@ async fn main() -> Result<(), anyhow::Error> {
     if msg != WsMessage::Text("HELLO".into()) {
         bail!("Server did not return HELLO")
     }
+
+
+
     Ok(())
 }
